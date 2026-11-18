@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Movie Ticketing System</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+</head>
+<body>
+	<div id="header">Movie Ticketing System</div>
+	<div id="title">Sign up</div>
+
+	<form id="signupForm" method="POST">
+	  <div class="mb-3">
+	  	<label for="firstNameInput" class="form-label">First name</label>
+	  	<input type="text" class="form-control" id="firstNameInput" name="first_name" minlength="1" maxlength ="50" required>
+	  </div>
+	  <div class="mb-3">
+	  	<label for="lastNameInput" class="form-label">Last name</label>
+	  	<input type="text" class="form-control" id="lastNameInput" name="last_name" minlength="1" maxlength ="50" required>
+	  </div>
+	  <div class="mb-3">
+	    <label for="emailAddressInput" class="form-label">Email address</label>
+	    <input type="email" class="form-control" id="emailAddressInput" name="email_address" maxlength="255" required>
+	  </div>
+	  <div class="mb-3">
+		<label for="mobileNumberInput" class="form-label">Mobile number</label>
+		<input type="tel" class="form-control" id="mobileNumberInput" name="mobile_number" pattern="^(09)\d{9}$" maxlength="20" required>
+	  </div>
+	  <div class="mb-3">
+		<label for="ageInput" class="form-label">Age</label>
+		<input type="number" class="form-control" id="ageInput" name="age" min="1" max="255" required>
+	  </div>
+	  <button type="submit" name="signupBtn" class="btn-solid theme-primary">Sign up</button>
+	  <p>Have an account? <a href="{{ url_for('login') }}">Login</a></p>
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+

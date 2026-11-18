@@ -1,0 +1,71 @@
+#header{
+	width: 100%;
+	height: 80px;
+	background-color: white;
+	box-shadow: 0 0px 8px grey;
+
+    display: flex;
+    align-items: center;
+    padding-left: 120px;
+
+	font-size: 22px;
+	color: black;
+}
+
+#title{
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    padding-left: 520px;
+
+	font-size: 27px;
+	color: black;
+}
+
+#signupForm,
+#loginForm {
+  max-width: 420px;     
+  margin: 40px auto;     
+  padding: 28px 24px;    
+  border: 1px solid grey; 
+  border-radius: 10px;   
+  background-color: white;
+}
+
+#signupForm button,
+#loginForm button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px; 
+  color: white;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#signupForm p,
+#loginForm p  {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+#signupForm a,
+#loginForm a  {
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
