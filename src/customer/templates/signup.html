@@ -32,15 +32,17 @@
 		<label for="ageInput" class="form-label">Age</label>
 		<input type="number" class="form-control" id="ageInput" name="age" min="1" max="255" required>
 	  </div>
+	  <div id="signupMessage">
+	  	{% with messages = get_flashed_messages(with_categories=true) %}
+	  		{% if messages %}
+	  			{% for category, msg in messages %}
+	  				<p class="{{ category }}">{{ msg }}</p>
+	  			{% endfor %}
+	  		{% endif %}
+	  	{% endwith %}
+	  </div>
 	  <button type="submit" name="signupBtn" class="btn-solid theme-primary">Sign up</button>
 	  <p>Have an account? <a href="{{ url_for('login') }}">Login</a></p>
 	</form>
 </body>
 </html>
-
-
-
-
-
-
-

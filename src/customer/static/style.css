@@ -55,17 +55,10 @@
   text-decoration: none;
 }
 
+.info {
+  color: green;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.error {
+  color: red;
+}
