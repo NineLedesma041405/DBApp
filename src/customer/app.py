@@ -23,7 +23,8 @@ def signup():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
 	if request.method == 'POST':
-		pass
+		loginAccount()
+		return redirect(url_for('login'))
 	
 	return render_template('login.html')
 
@@ -47,8 +48,28 @@ def signupAccount():
 			flash('Successfully registered account', 'info')
 		else:
 			flash('Email or number already exists', 'error')
-
 	except mysql.connector.IntegrityError as e:
+		pass
+	finally:
+		cursor.close()
+		db.close()
+
+def loginAccount():
+	db = get_db()
+	cursor = db.cursor()
+
+	try:
+		email_address = request.form['email_address']
+		mobile_number = request.form['mobile_number']
+
+		cursor.execute('SELECT customer_id FROM customer WHERE email_address=%s AND mobile_number=%s', (email_address, mobile_number))
+		row = cursor.fetchone()
+
+		if row:
+			flash('Found account', 'info') 
+		else:
+			flash('Account does not exist', 'error')
+	except mysql.connector.Error as e:
 		pass
 	finally:
 		cursor.close()

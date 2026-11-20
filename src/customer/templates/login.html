@@ -20,15 +20,17 @@
 		<label for="mobileNumberInput" class="form-label">Mobile number</label>
 		<input type="tel" class="form-control" id="mobileNumberInput" name="mobile_number" pattern="^(09)\d{9}$" maxlength="20" required>
 	  </div>
+	  <div id="loginMessage">
+	  	{% with messages = get_flashed_messages(with_categories=true) %}
+	  		{% if messages %}
+	  			{% for category, msg in messages %}
+	  				<p class="{{ category }}">{{ msg }}</p>
+	  			{% endfor %}
+	  		{% endif %}
+	  	{% endwith %}
+	  </div>
 	  <button type="submit" name="loginBtn" class="btn-solid theme-primary">Login</button>
 	  <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
 	</form>
 </body>
 </html>
-
-
-
-
-
-
-
