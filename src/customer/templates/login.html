@@ -5,21 +5,38 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Movie Ticketing System</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+	<!-- Link to bootstrap -->
+
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
 </head>
 <body>
+
+	<!-- Title -->
+
 	<div id="header">Movie Ticketing System</div>
 	<div id="title">Login</div>
 
+	<!-- Login form -->
+
 	<form id="loginForm" method="POST">
+
+	  <!-- Email address input -->
+
 	  <div class="mb-3">
 	    <label for="emailAddressInput" class="form-label">Email address</label>
 	    <input type="email" class="form-control" id="emailAddressInput" name="email_address" maxlength="255" required>
 	  </div>
+
+	  <!-- Mobile number input -->
+
 	  <div class="mb-3">
 		<label for="mobileNumberInput" class="form-label">Mobile number</label>
 		<input type="tel" class="form-control" id="mobileNumberInput" name="mobile_number" pattern="^(09)\d{9}$" maxlength="20" required>
 	  </div>
+
+	  <!-- Login Message -->
+
 	  <div id="loginMessage">
 	  	{% with messages = get_flashed_messages(with_categories=true) %}
 	  		{% if messages %}
@@ -29,6 +46,9 @@
 	  		{% endif %}
 	  	{% endwith %}
 	  </div>
+
+	  <!-- Login button -->
+
 	  <button type="submit" name="loginBtn" class="btn-solid theme-primary">Login</button>
 	  <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
 	</form>
