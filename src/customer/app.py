@@ -3,8 +3,10 @@ import mysql.connector
 
 app = Flask(__name__)
 app.secret_key = 'hello'
-	
+
 def get_db():
+	'''Connects the database to the app.'''
+
 	return mysql.connector.connect(
 		host='localhost',
 		user='root',
@@ -14,6 +16,8 @@ def get_db():
 
 @app.route('/', methods=['POST', 'GET'])
 def signup():
+	'''Displays the signup page and processes the signup form.'''
+
 	if request.method == 'POST':
 		signupAccount()
 		return redirect(url_for('signup'))
@@ -22,6 +26,8 @@ def signup():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+	'''Displays the login page and processes the login form.'''
+
 	if request.method == 'POST':
 		loginAccount()
 		return redirect(url_for('login'))
@@ -29,18 +35,27 @@ def login():
 	return render_template('login.html')
 
 def signupAccount():
+	'''Registers a new account.'''
+
 	db = get_db()
 	cursor = db.cursor()
 
 	try:
+		# Get the user input for all fields 
+
 		first_name = request.form['first_name']
 		last_name = request.form['last_name']
 		email_address = request.form['email_address']
 		mobile_number = request.form['mobile_number']
 		age = request.form['age']
 
+		# Query a customer record using the inputted email and number
+
 		cursor.execute('SELECT customer_id FROM customer WHERE email_address=%s OR mobile_number=%s', (email_address, mobile_number))
 		row = cursor.fetchone()
+
+		# Check if the account already exists 
+		# If the account does not exist yet, insert it into the database, otherwise, flash an error message
 
 		if not row:
 			cursor.execute('INSERT INTO customer(first_name, last_name, email_address, mobile_number, age) VALUES(%s, %s, %s, %s, %s)', (first_name, last_name, email_address, mobile_number, age))
@@ -55,18 +70,26 @@ def signupAccount():
 		db.close()
 
 def loginAccount():
+	'''Logs in an account.'''
+
 	db = get_db()
 	cursor = db.cursor()
 
 	try:
+		# Get the user input for the email and number fields
+
 		email_address = request.form['email_address']
 		mobile_number = request.form['mobile_number']
+
+		# Query a customer record using the inputted email and number
 
 		cursor.execute('SELECT customer_id FROM customer WHERE email_address=%s AND mobile_number=%s', (email_address, mobile_number))
 		row = cursor.fetchone()
 
+		# If the account already exists, route it to the movie selection page, otherwise, flash an error message
+
 		if row:
-			flash('Found account', 'info') 
+			flash('Found account', 'info') # This message is for checking only, replace with code to route to the movie selection page 
 		else:
 			flash('Account does not exist', 'error')
 	except mysql.connector.Error as e:
