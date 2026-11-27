@@ -32,9 +32,28 @@
 	  </select>
 	</form>
 
-	<!-- Add customer button -->
+	<!-- Add customer -->
 
-	<button id="addCustomerBtn" type="button" class="btn-subtle theme-inverse">+ Add customer</button>
+	<div id="addCustomerFunction">
+
+		<!-- Add customer button -->
+
+		<form method="POST">
+			<button id="addCustomerBtn" name="addCustomerBtn" type="submit" class="btn-subtle theme-inverse">+ Add customer</button>
+		</form>
+
+	  	<!-- Add customer message -->
+
+	  	<div id="addCustomerMessage">
+	  		{% with messages = get_flashed_messages(with_categories=true) %}
+	  			{% if messages %}
+	  				{% for category, msg in messages %}
+	  					<p class="{{ category }}">{{ msg }}</p>
+	  				{% endfor %}
+	  			{% endif %}
+	  		{% endwith %}
+	 	</div>
+ 	</div>
 
 	<!-- Customer table -->
 
@@ -71,5 +90,64 @@
 		</table>
 	</div>
 
+	<!-- Add customer form -->
+
+	{% if customerBtnFlag %}
+		<form id="addCustomerForm" method="POST">
+
+		  <!-- First name input -->
+
+		  <div class="mb-3">
+		  	<label for="firstNameInput" class="form-label">First name</label>
+		  	<input type="text" class="form-control" id="firstNameInput" name="first_name" minlength="1" maxlength ="50" required>
+		  </div>
+
+		  <!-- Last name input -->
+
+		  <div class="mb-3">
+		  	<label for="lastNameInput" class="form-label">Last name</label>
+		  	<input type="text" class="form-control" id="lastNameInput" name="last_name" minlength="1" maxlength ="50" required>
+		  </div>
+
+		  <!-- Email address input -->
+
+		  <div class="mb-3">
+		    <label for="emailAddressInput" class="form-label">Email address</label>
+		    <input type="email" class="form-control" id="emailAddressInput" name="email_address" maxlength="255" required>
+		  </div>
+
+		  <!-- Mobile number input -->
+
+		  <div class="mb-3">
+			<label for="mobileNumberInput" class="form-label">Mobile number</label>
+			<input type="tel" class="form-control" id="mobileNumberInput" name="mobile_number" pattern="^(09)\d{9}$" maxlength="20" required>
+		  </div>
+
+		  <!-- Age input -->
+
+		  <div class="mb-3">
+			<label for="ageInput" class="form-label">Age</label>
+			<input type="number" class="form-control" id="ageInput" name="age" min="1" max="255" required>
+		  </div>
+
+		  <!-- Submit customer button -->
+
+		  <button type="submit" name="submitCustomerBtn" class="btn-solid theme-primary">Add customer</button>
+		  <br>
+		  <a href="{{ url_for('customerModule') }}">Exit</a>
+		</form>
+		{% endif %}
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

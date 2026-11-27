@@ -66,40 +66,45 @@ def customerModule():
 			cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer')
 			customers = cursor.fetchall()
 
-			search_query = 'customer_id'
+			search_query = ''
 			filters = ''
+			customerBtnFlag = False
 
 			if request.method == 'POST':
-				search_query = request.form['search_query']
-				filters = request.form['filters']
+				if 'search_query' in request.form:
+					search_query = request.form['search_query']
+					filters = request.form['filters']
 
-				if search_query.isdigit() and filters == 'customer_id':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE customer_id=%s', (search_query,))
-					customers = cursor.fetchall()
-				elif search_query and filters == 'first_name':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE first_name LIKE %s', (search_query + '%',))
-					customers = cursor.fetchall()
-				elif search_query and filters == 'last_name':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE last_name LIKE %s', (search_query + '%',))
-					customers = cursor.fetchall()
-				elif search_query and filters == 'email_address':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE email_address LIKE %s', (search_query + '%',))
-					customers = cursor.fetchall()
-				elif search_query and filters == 'mobile_number':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE mobile_number LIKE %s', (search_query + '%',))
-					customers = cursor.fetchall()
-				elif search_query.isdigit() and filters == 'age':
-					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE age BETWEEN %s AND %s', ('1', search_query))
-					customers = cursor.fetchall()
+					if search_query.isdigit() and filters == 'customer_id':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE customer_id=%s', (search_query,))
+						customers = cursor.fetchall()
+					elif search_query and filters == 'first_name':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE first_name LIKE %s', (search_query + '%',))
+						customers = cursor.fetchall()
+					elif search_query and filters == 'last_name':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE last_name LIKE %s', (search_query + '%',))
+						customers = cursor.fetchall()
+					elif search_query and filters == 'email_address':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE email_address LIKE %s', (search_query + '%',))
+						customers = cursor.fetchall()
+					elif search_query and filters == 'mobile_number':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE mobile_number LIKE %s', (search_query + '%',))
+						customers = cursor.fetchall()
+					elif search_query.isdigit() and filters == 'age':
+						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE age BETWEEN %s AND %s', ('1', search_query))
+						customers = cursor.fetchall()
+				elif 'addCustomerBtn' in request.form:
+					customerBtnFlag = True
+				elif 'submitCustomerBtn' in request.form:
+					signupAccount()
+					return redirect(url_for('customerModule'))
 
-			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters)
+			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters, customerBtnFlag=customerBtnFlag)
 		except mysql.connector.Error as e:
 			flash('Something went wrong', 'error')
 		finally:
 			cursor.close()
 			db.close()
-
-		# record searching
 
 		# add customer functionality
 
