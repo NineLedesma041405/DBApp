@@ -80,9 +80,11 @@
 			      <td>{{ customer[4] }}</td>
 			      <td>{{ customer[5] }}</td>
 			      <td>
-			      	<a href="">Delete</a>
-			      	<br>
-			      	<a href="">Update</a>
+			      	<form id="deleteOrUpdate" method="POST">
+				      	<button name="deleteBtn" value="{{ customer[0] }}" type="submit">Delete</button>
+				      	<br>
+				      	<button name="updateBtn" value="{{ customer[0] }}" type="submit">Update</button>
+			      	</form>
 			      </td>
 			    </tr>
 		    {% endfor %}

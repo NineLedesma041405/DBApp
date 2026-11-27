@@ -98,6 +98,11 @@ def customerModule():
 				elif 'submitCustomerBtn' in request.form:
 					signupAccount()
 					return redirect(url_for('customerModule'))
+				elif 'deleteBtn' in request.form:
+					customer_id = request.form['deleteBtn']
+					cursor.execute('DELETE FROM customer WHERE customer_id=%s', (customer_id,))
+					db.commit()
+					return redirect(url_for('customerModule'))
 
 			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters, customerBtnFlag=customerBtnFlag)
 		except mysql.connector.Error as e:
@@ -105,11 +110,7 @@ def customerModule():
 		finally:
 			cursor.close()
 			db.close()
-
-		# add customer functionality
-
-		# delete functionality
-
+			
 		# update functionality 
 	
 	return redirect(url_for('login'))

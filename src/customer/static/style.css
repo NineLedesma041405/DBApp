@@ -129,6 +129,17 @@
   margin-left: 300px; 
 }
 
+#customerTable button {
+  display: inline;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  background: transparent;
+  color: #0087fd;
+}
+
 #addCustomerForm {
   position: fixed;
   top: 50%;
