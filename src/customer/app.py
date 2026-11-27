@@ -1,8 +1,13 @@
-from flask import Flask, render_template, url_for, request, flash, redirect
+from flask import Flask, render_template, url_for, request, flash, redirect, session
 import mysql.connector
 
 app = Flask(__name__)
 app.secret_key = 'hello'
+
+# ADMIN CREDENTIALS
+
+ADMIN_EMAIL_ADDRESS = 'admin@gmail.com'
+ADMIN_MOBILE_NUMBER = '09999999999'
 
 def get_db():
 	'''Connects the database to the app.'''
@@ -28,11 +33,43 @@ def signup():
 def login():
 	'''Displays the login page and processes the login form.'''
 
+	# If the admin logs in, redirect them to the customer module
+
 	if request.method == 'POST':
+		email_address = request.form['email_address']
+		mobile_number = request.form['mobile_number']
+
+		if email_address == ADMIN_EMAIL_ADDRESS and mobile_number == ADMIN_MOBILE_NUMBER:
+			session['email_address'] = email_address
+			session['mobile_number'] = mobile_number
+			return redirect(url_for('customerModule'))
+
 		loginAccount()
 		return redirect(url_for('login'))
 	
+	session.pop('email_address', None)
+	session.pop('mobile_number', None)
 	return render_template('login.html')
+
+@app.route('/customerModule', methods=['POST', 'GET'])
+def customerModule():
+	'''Displays the customer module.'''
+
+	db = get_db()
+	cursor = db.cursor()
+
+	if 'email_address' in session and 'mobile_number' in session:
+		email_address = session['email_address']
+		mobile_number = session['mobile_number']
+
+		# Display all records in the customer table
+
+		cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer')
+		customers = cursor.fetchall()
+
+		return render_template('customerModule.html', customers=customers)
+	
+	return redirect(url_for('login'))
 
 def signupAccount():
 	'''Registers a new account.'''

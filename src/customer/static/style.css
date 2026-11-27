@@ -1,22 +1,28 @@
+/*
+
+----- Signup and Login -----
+
+*/
+
 #header{
 	width: 100%;
 	height: 80px;
 	background-color: white;
 	box-shadow: 0 0px 8px grey;
 
-    display: flex;
-    align-items: center;
-    padding-left: 120px;
+  display: flex;
+  align-items: center;
+  padding-left: 120px;
 
 	font-size: 22px;
 	color: black;
 }
 
 #title{
-    display: flex;
-    align-items: center;
-    padding-top: 30px;
-    padding-left: 520px;
+  display: flex;
+  align-items: center;
+  padding-top: 30px;
+  padding-left: 520px;
 
 	font-size: 27px;
 	color: black;
@@ -61,4 +67,55 @@
 
 .error {
   color: red;
+}
+
+/* 
+
+----- Customer Module -----
+
+*/
+
+#moduleHeader {
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  box-shadow: 0 0px 8px grey;
+
+  display: flex;
+  align-items: center;
+  padding-left: 300px;
+
+  font-size: 22px;
+  color: black;
+}
+
+#searchBar {
+  display: flex;
+  gap: 10px;
+  width: 40%;   
+  margin-top: 30px;
+  margin-left: 300px;
+}
+
+#searchBar .combobox {
+  flex: 1;
+}
+
+#searchBar select {
+  padding: 8px 12px;
+  background-color: #e1e4e6;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#addCustomerBtn {
+  margin-top: 10px;
+  margin-left: 300px;
+}
+
+#customerTable {
+  width: 75%;
+  margin-top: 25px;
+  margin-left: 300px; 
 }

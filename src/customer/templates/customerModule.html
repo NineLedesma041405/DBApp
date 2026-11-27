@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Movie Ticketing System</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+	<!-- Link to bootstrap -->
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+</head>
+<body>
+
+	<!-- Title -->
+
+	<div id="moduleHeader">Customers</div>
+
+	<!-- Search bar and filter dropdown -->
+
+	<form id="searchBar" method="GET">
+	  <div class="combobox" data-bs-toggle="combobox" data-bs-name="language">
+	    <input class="form-control combobox-input" id="editableLanguage" name="search_query" placeholder="Search customer records">
+	  </div>
+	  <select>
+	  	<option value="id">ID</option>
+	  	<option value="first_name">First name</option>
+	  	<option value="last_name">Last name</option>
+	  	<option value="email_address">Email</option>
+		<option value="mobile_number">Mobile number</option>
+		<option value="age">Age</option>
+	  </select>
+	</form>
+
+	<!-- Add customer button -->
+
+	<button id="addCustomerBtn" type="button" class="btn-subtle theme-inverse">+ Add customer</button>
+
+	<!-- Customer table -->
+
+	<div id="customerTable" class="border rounded overflow-hidden">
+		<table class="table table-striped mb-0">
+		  <thead>
+		    <tr>
+		      <th scope="col">customer_id</th>
+		      <th scope="col">first_name</th>
+		      <th scope="col">last_name</th>
+		      <th scope="col">email_address</th>
+		      <th scope="col">mobile_number</th>
+		      <th scope="col">age</th>
+		      <th scope="col">actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for customer in customers %}
+			    <tr>
+			      <td>{{ customer[0] }}</td>
+			      <td>{{ customer[1] }}</td>
+			      <td>{{ customer[2] }}</td>
+			      <td>{{ customer[3] }}</td>
+			      <td>{{ customer[4] }}</td>
+			      <td>{{ customer[5] }}</td>
+			      <td>
+			      	<a href="">Delete</a>
+			      	<br>
+			      	<a href="">Update</a>
+			      </td>
+			    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+
+</body>
+</html>
