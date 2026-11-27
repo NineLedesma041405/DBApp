@@ -18,17 +18,17 @@
 
 	<!-- Search bar and filter dropdown -->
 
-	<form id="searchBar" method="GET">
+	<form id="searchBar" method="POST">
 	  <div class="combobox" data-bs-toggle="combobox" data-bs-name="language">
-	    <input class="form-control combobox-input" id="editableLanguage" name="search_query" placeholder="Search customer records">
+	    <input class="form-control combobox-input" id="editableLanguage" name="search_query" placeholder="Search customer records" value="{{ search_query }}">
 	  </div>
-	  <select>
-	  	<option value="id">ID</option>
-	  	<option value="first_name">First name</option>
-	  	<option value="last_name">Last name</option>
-	  	<option value="email_address">Email</option>
-		<option value="mobile_number">Mobile number</option>
-		<option value="age">Age</option>
+	  <select name="filters">
+	  	<option value="customer_id" {% if filters=="customer_id"%}selected="selected"{% endif %}>ID</option>
+	  	<option value="first_name" {% if filters=="first_name"%}selected="selected"{% endif %}>First name</option>
+	  	<option value="last_name" {% if filters=="last_name"%}selected="selected"{% endif %}>Last name</option>
+	  	<option value="email_address" {% if filters=="email_address"%}selected="selected"{% endif %}>Email</option>
+		<option value="mobile_number" {% if filters=="mobile_number"%}selected="selected"{% endif %}>Mobile number</option>
+		<option value="age" {% if filters=="age"%}selected="selected"{% endif %}>Age</option>
 	  </select>
 	</form>
 

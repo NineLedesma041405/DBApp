@@ -55,19 +55,57 @@ def login():
 def customerModule():
 	'''Displays the customer module.'''
 
-	db = get_db()
-	cursor = db.cursor()
-
 	if 'email_address' in session and 'mobile_number' in session:
-		email_address = session['email_address']
-		mobile_number = session['mobile_number']
+		db = get_db()
+		cursor = db.cursor()
 
-		# Display all records in the customer table
+		# Display all customer records in the customer table or display the filtered customers 
+		# if the admin uses the search bar 
 
-		cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer')
-		customers = cursor.fetchall()
+		try:
+			cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer')
+			customers = cursor.fetchall()
 
-		return render_template('customerModule.html', customers=customers)
+			search_query = 'customer_id'
+			filters = ''
+
+			if request.method == 'POST':
+				search_query = request.form['search_query']
+				filters = request.form['filters']
+
+				if search_query.isdigit() and filters == 'customer_id':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE customer_id=%s', (search_query,))
+					customers = cursor.fetchall()
+				elif search_query and filters == 'first_name':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE first_name LIKE %s', (search_query + '%',))
+					customers = cursor.fetchall()
+				elif search_query and filters == 'last_name':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE last_name LIKE %s', (search_query + '%',))
+					customers = cursor.fetchall()
+				elif search_query and filters == 'email_address':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE email_address LIKE %s', (search_query + '%',))
+					customers = cursor.fetchall()
+				elif search_query and filters == 'mobile_number':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE mobile_number LIKE %s', (search_query + '%',))
+					customers = cursor.fetchall()
+				elif search_query.isdigit() and filters == 'age':
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE age BETWEEN %s AND %s', ('1', search_query))
+					customers = cursor.fetchall()
+
+			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters)
+		except mysql.connector.Error as e:
+			flash('Something went wrong', 'error')
+		finally:
+			cursor.close()
+			db.close()
+
+		# record searching
+
+		# add customer functionality
+
+		# delete functionality
+
+		# update functionality 
 	
 	return redirect(url_for('login'))
 
@@ -101,7 +139,7 @@ def signupAccount():
 		else:
 			flash('Email or number already exists', 'error')
 	except mysql.connector.IntegrityError as e:
-		pass
+		flash('Email or number already exists', 'error')
 	finally:
 		cursor.close()
 		db.close()
@@ -130,7 +168,7 @@ def loginAccount():
 		else:
 			flash('Account does not exist', 'error')
 	except mysql.connector.Error as e:
-		pass
+		flash('Account does not exist', 'error')
 	finally:
 		cursor.close()
 		db.close()
