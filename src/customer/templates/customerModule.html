@@ -80,7 +80,7 @@
 			      <td>{{ customer[4] }}</td>
 			      <td>{{ customer[5] }}</td>
 			      <td>
-			      	<form id="deleteOrUpdate" method="POST">
+			      	<form method="POST">
 				      	<button name="deleteBtn" value="{{ customer[0] }}" type="submit">Delete</button>
 				      	<br>
 				      	<button name="updateBtn" value="{{ customer[0] }}" type="submit">Update</button>
@@ -95,7 +95,7 @@
 	<!-- Add customer form -->
 
 	{% if customerBtnFlag %}
-		<form id="addCustomerForm" method="POST">
+		<form id="customerForm" method="POST">
 
 		  <!-- First name input -->
 
@@ -138,9 +138,78 @@
 		  <br>
 		  <a href="{{ url_for('customerModule') }}">Exit</a>
 		</form>
-		{% endif %}
+	{% endif %}
+
+	<!-- Update customer record form -->
+
+	{% if updateFlag %}
+		<form id="customerForm" method="POST">
+
+		  <!-- First name input -->
+
+		  <div class="mb-3">
+		  	<label for="firstNameInput" class="form-label">First name</label>
+		  	<input value="{{ customer[1] }}" type="text" class="form-control" id="firstNameInput" name="first_name" minlength="1" maxlength ="50" required>
+		  </div>
+
+		  <!-- Last name input -->
+
+		  <div class="mb-3">
+		  	<label for="lastNameInput" class="form-label">Last name</label>
+		  	<input value="{{ customer[2] }}" type="text" class="form-control" id="lastNameInput" name="last_name" minlength="1" maxlength ="50" required>
+		  </div>
+
+		  <!-- Email address input -->
+
+		  <div class="mb-3">
+		    <label for="emailAddressInput" class="form-label">Email address</label>
+		    <input value="{{ customer[3] }}" type="email" class="form-control" id="emailAddressInput" name="email_address" maxlength="255" required>
+		  </div>
+
+		  <!-- Mobile number input -->
+
+		  <div class="mb-3">
+			<label for="mobileNumberInput" class="form-label">Mobile number</label>
+			<input value="{{ customer[4] }}" type="tel" class="form-control" id="mobileNumberInput" name="mobile_number" pattern="^(09)\d{9}$" maxlength="20" required>
+		  </div>
+
+		  <!-- Age input -->
+
+		  <div class="mb-3">
+			<label for="ageInput" class="form-label">Age</label>
+			<input value="{{ customer[5] }}" type="number" class="form-control" id="ageInput" name="age" min="1" max="255" required>
+		  </div>
+
+		  <!-- Submit update button -->
+
+		  <button value="{{ customer[0] }}" type="submit" name="submitUpdateBtn" class="btn-solid theme-primary">Update record</button>
+		  <br>
+		  <a href="{{ url_for('customerModule') }}">Exit</a>
+		</form>
+	{% endif %}
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

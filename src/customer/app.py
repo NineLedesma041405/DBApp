@@ -59,18 +59,22 @@ def customerModule():
 		db = get_db()
 		cursor = db.cursor()
 
-		# Display all customer records in the customer table or display the filtered customers 
-		# if the admin uses the search bar 
-
 		try:
+			# Display all customer records in the customer table
+
 			cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer')
 			customers = cursor.fetchall()
 
 			search_query = ''
 			filters = ''
 			customerBtnFlag = False
+			updateFlag = False
+			customer = None
 
 			if request.method == 'POST':
+
+				# Display filtered customer records
+
 				if 'search_query' in request.form:
 					search_query = request.form['search_query']
 					filters = request.form['filters']
@@ -93,25 +97,53 @@ def customerModule():
 					elif search_query.isdigit() and filters == 'age':
 						cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE age BETWEEN %s AND %s', ('1', search_query))
 						customers = cursor.fetchall()
+
+				# Add a customer record
+
 				elif 'addCustomerBtn' in request.form:
 					customerBtnFlag = True
 				elif 'submitCustomerBtn' in request.form:
 					signupAccount()
 					return redirect(url_for('customerModule'))
+
+				# Delete a customer record
+
 				elif 'deleteBtn' in request.form:
 					customer_id = request.form['deleteBtn']
 					cursor.execute('DELETE FROM customer WHERE customer_id=%s', (customer_id,))
 					db.commit()
 					return redirect(url_for('customerModule'))
 
-			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters, customerBtnFlag=customerBtnFlag)
+				# Update a customer record
+
+				elif 'updateBtn' in request.form:
+					customer_id = request.form['updateBtn']
+					cursor.execute('SELECT customer_id, first_name, last_name, email_address, mobile_number, age FROM customer WHERE customer_id=%s', (customer_id,))
+					customer = cursor.fetchone()
+					updateFlag = True
+				elif 'submitUpdateBtn' in request.form:
+					customer_id = request.form['submitUpdateBtn']
+					first_name = request.form['first_name']
+					last_name = request.form['last_name']
+					email_address = request.form['email_address']
+					mobile_number = request.form['mobile_number']
+					age = request.form['age']
+
+					cursor.execute('UPDATE customer SET first_name=%s, last_name=%s, email_address=%s, mobile_number=%s, age=%s WHERE customer_id=%s', (first_name, last_name, email_address, mobile_number, age, customer_id))
+					db.commit()
+					flash('Successfully updated record', 'info')
+					return redirect(url_for('customerModule'))
+
+			return render_template('customerModule.html', customers=customers, search_query=search_query, filters=filters, customerBtnFlag=customerBtnFlag, updateFlag=updateFlag, customer=customer)
+		except mysql.connector.IntegrityError as e:
+			flash('Email or number already exists', 'error')
+			return redirect(url_for('customerModule'))
 		except mysql.connector.Error as e:
 			flash('Something went wrong', 'error')
+			return redirect(url_for('customerModule'))
 		finally:
 			cursor.close()
 			db.close()
-			
-		# update functionality 
 	
 	return redirect(url_for('login'))
 
